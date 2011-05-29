@@ -5,11 +5,10 @@ function drawAllPeopleDivsAtOnce(list_of_people_data) {
     var div;
     var a;
     var span;
-    var $results;
+    var $results = $('<div id="results"></div>');
 
     $("#results").replaceWith($text);
 
-    $results = $('<div id="results"></div>');
     for (i = 0; i < list_of_people_data.length; i++) {
 	f = list_of_people_data[i];
         div = $("<div />");
