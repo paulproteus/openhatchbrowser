@@ -14,23 +14,33 @@ function handleResults(data) {
     drawResults();
 }
 function drawResults() {
-    $("#results").html("");
+    var people_to_display_now = [];
     var extent = map.getExtent();
     for (var i = 0; i < layer.features.length; i++) {
         var feat = layer.features[i];
         if (extent.intersectsBounds(feat.geometry.getBounds()))  {
             for (var j = 0 ; j < feat.cluster.length; j++) {
                 var f = feat.cluster[j];
-                var div = $("<div />");
-                var a = $("<a href='http://openhatch.org/people/"+f.attributes.all_data.extra_person_info.username+"/'>" + f.attributes.name + "</a>");
-                div.append(a);
-                var span = $("<span>, " + f.attributes.location + "</span>");
-                div.append(span);
-                $("#results").append(div);
-            }
-        }
+		people_to_display_now.push(f);
+	    }
+	}
+    }
+    drawAllPeopleDivsAtOnce(people_to_display_now);
+}
+
+function drawAllPeopleDivsAtOnce(list_of_people_data) {
+    $("#results").html("");
+    for (int i = 0; i < list_of_people_data.length; i++) {
+	var j = list_of_people_data[i];
+        var div = $("<div />");
+        var a = $("<a href='http://openhatch.org/people/"+f.attributes.all_data.extra_person_info.username+"/'>" + f.attributes.name + "</a>");
+        div.append(a);
+        var span = $("<span>, " + f.attributes.location + "</span>");
+        div.append(span);
+        $("#results").append(div);
     }
 }
+
 function init() {
     map = new OpenLayers.Map("map");
     var l = new OpenLayers.Layer.OSM();
