@@ -68,7 +68,7 @@ function init() {
     map.addLayer(layer);
     s.activate();
     map.zoomToMaxExtent();
-    jQuery.getJSON("/people", handleResults);
+    jQuery.getJSON("location_data", handleResults);
     map.events.register("moveend", null, drawResults);
 }
 </script>
