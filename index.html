@@ -1,6 +1,6 @@
 <html>
 <head>
-<!-- 
+<!--
 Originally copyright (C) 2011 Christopher Schmidt. To the extent possible
 under relevant law, Christopher Schmidt has waived all copyright and
 related or neighboring rights to this file. See
@@ -26,7 +26,7 @@ function handleResults(data) {
 }
 function drawResults() {
     $("#results").html("");
-    var extent = map.getExtent();  
+    var extent = map.getExtent();
     for (var i = 0; i < layer.features.length; i++) {
         var feat = layer.features[i];
         if (extent.intersectsBounds(feat.geometry.getBounds()))  {
@@ -38,7 +38,7 @@ function drawResults() {
                 var span = $("<span>, " + f.attributes.location + "</span>");
                 div.append(span);
                 $("#results").append(div);
-            }    
+            }
         }
     }
 }
@@ -53,7 +53,7 @@ function init() {
                     context: {
                         label: function(feature) {
                             return feature.cluster.length;
-                        }, 
+                        },
                         radius: function(feature) {
                             return feature.cluster ?
                                 Math.min((Math.max(feature.cluster.length, 7) + 8)/2, 16) :
@@ -61,7 +61,7 @@ function init() {
                         }
                     }
                 })});
-            
+
     var s = new OpenLayers.Strategy.Cluster();
     layer = new OpenLayers.Layer.Vector("", {strategies: [ s ], styleMap: styleMap});
     map.addLayer(layer);
