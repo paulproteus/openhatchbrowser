@@ -29,7 +29,10 @@ function drawResults() {
 }
 
 function drawAllPeopleDivsAtOnce(list_of_people_data) {
-    $("#results").html("");
+    var $text = $("<div>Drawing people...</div>");
+    $("#results").replaceWith($text);
+
+    var $results = $('<div id="results"></div>');
     for (int i = 0; i < list_of_people_data.length; i++) {
 	var j = list_of_people_data[i];
         var div = $("<div />");
@@ -37,8 +40,9 @@ function drawAllPeopleDivsAtOnce(list_of_people_data) {
         div.append(a);
         var span = $("<span>, " + f.attributes.location + "</span>");
         div.append(span);
-        $("#results").append(div);
+        $results.append(div);
     }
+    $text.replaceWith($results);
 }
 
 function init() {
