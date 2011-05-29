@@ -33,8 +33,8 @@ function drawAllPeopleDivsAtOnce(list_of_people_data) {
     $("#results").replaceWith($text);
 
     var $results = $('<div id="results"></div>');
-    for (int i = 0; i < list_of_people_data.length; i++) {
-	var j = list_of_people_data[i];
+    for (var i = 0; i < list_of_people_data.length; i++) {
+	var f = list_of_people_data[i];
         var div = $("<div />");
         var a = $("<a href='http://openhatch.org/people/"+f.attributes.all_data.extra_person_info.username+"/'>" + f.attributes.name + "</a>");
         div.append(a);
