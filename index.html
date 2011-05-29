@@ -13,7 +13,6 @@ function handleResults(data) {
     var features = [];
     for (var key in data) {
         var person = data[key];
-        if (person['lat_long_data']['is_inaccessible'] == true) { continue; }
         var feature = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(
             person['lat_long_data']['longitude'],
             person['lat_long_data']['latitude']),
