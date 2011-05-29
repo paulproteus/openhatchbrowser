@@ -1,26 +1,40 @@
-function handleResults(data) {
-    var features = [];
-    for (var key in data) {
-        var person = data[key];
-        var feature = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(
-            person['lat_long_data']['longitude'],
-            person['lat_long_data']['latitude']),
-            {'name':person['name'], 'location': person['location'], 'all_data': person});
-        feature.geometry.transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
-        features.push(feature);
+function drawAllPeopleDivsAtOnce(list_of_people_data) {
+    var $text = $("<div>Drawing people...</div>");
+    var i;
+    var f;
+    var div;
+    var a;
+    var span;
+    var $results;
+
+    $("#results").replaceWith($text);
+
+    $results = $('<div id="results"></div>');
+    for (i = 0; i < list_of_people_data.length; i++) {
+	f = list_of_people_data[i];
+        div = $("<div />");
+        a = $("<a href='http://openhatch.org/people/"+f.attributes.all_data.extra_person_info.username+"/'>" + f.attributes.name + "</a>");
+        div.append(a);
+        span = $("<span>, " + f.attributes.location + "</span>");
+        div.append(span);
+        $results.append(div);
     }
-    layer.destroyFeatures();
-    layer.addFeatures(features);
-    drawResults();
+    $text.replaceWith($results);
 }
+
 function drawResults() {
     var people_to_display_now = [];
     var extent = map.getExtent();
-    for (var i = 0; i < layer.features.length; i++) {
-        var feat = layer.features[i];
+    var i;
+    var feat;
+    var j;
+    var f;
+
+    for (i = 0; i < layer.features.length; i++) {
+        feat = layer.features[i];
         if (extent.intersectsBounds(feat.geometry.getBounds()))  {
-            for (var j = 0 ; j < feat.cluster.length; j++) {
-                var f = feat.cluster[j];
+            for (j = 0 ; j < feat.cluster.length; j++) {
+                f = feat.cluster[j];
 		people_to_display_now.push(f);
 	    }
 	}
@@ -28,21 +42,26 @@ function drawResults() {
     drawAllPeopleDivsAtOnce(people_to_display_now);
 }
 
-function drawAllPeopleDivsAtOnce(list_of_people_data) {
-    var $text = $("<div>Drawing people...</div>");
-    $("#results").replaceWith($text);
+function handleResults(data) {
+    var key;
+    var features = [];
+    var person;
+    var feature;
 
-    var $results = $('<div id="results"></div>');
-    for (var i = 0; i < list_of_people_data.length; i++) {
-	var f = list_of_people_data[i];
-        var div = $("<div />");
-        var a = $("<a href='http://openhatch.org/people/"+f.attributes.all_data.extra_person_info.username+"/'>" + f.attributes.name + "</a>");
-        div.append(a);
-        var span = $("<span>, " + f.attributes.location + "</span>");
-        div.append(span);
-        $results.append(div);
+    for (key in data) {
+	if (data.hasOwnProperty(key)) {
+            person = data[key];
+            feature = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(
+		person.lat_long_data.longitude,
+		person.lat_long_data.latitude),
+						    {'name':person.name, 'location': person.location, 'all_data': person});
+            feature.geometry.transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
+            features.push(feature);
+	}
     }
-    $text.replaceWith($results);
+    layer.destroyFeatures();
+    layer.addFeatures(features);
+    drawResults();
 }
 
 function init() {
